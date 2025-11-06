@@ -1,28 +1,38 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import ChatGlobal from './components/ChatGlobal';
+import Quran from './components/Quran';
+import Profile from './components/Profile';
+import { motion } from 'framer-motion';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [page, setPage] = useState('home');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50 text-slate-800">
+      {/* Subtle radial highlight for glassy feel */}
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-sky-100/60 via-transparent to-transparent" />
+
+      <Navbar current={page} onNavigate={setPage} />
+
+      <motion.main
+        key={page}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {page === 'home' && <Home />}
+        {page === 'chat' && <ChatGlobal />}
+        {page === 'quran' && <Quran />}
+        {page === 'profile' && <Profile />}
+      </motion.main>
+
+      <footer className="mx-auto max-w-6xl px-4 py-10 text-center text-sm text-slate-500">
+        © {new Date().getFullYear()} Mufadz App — Dibangun dengan nuansa biru yang tenang.
+      </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
